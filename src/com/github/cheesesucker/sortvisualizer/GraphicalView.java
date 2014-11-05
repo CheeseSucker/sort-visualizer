@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.IdentityHashMap;
 
 public class GraphicalView {
-	private static final int WindowWidth = 500;
-	private static final int WindowHeight = 200;
-	private static final int WindowsPerRow = 3;
-	private static final int WindowOffsetY = 200;
+	// Configuration
+	public static int WindowWidth = 500;
+	public static int WindowHeight = 200;
+	public static int WindowsPerRow = 2;
+	public static int WindowOffsetY = 100;
+	
+	
 	private static AbstractMap<Object, GraphicalView> instances = new IdentityHashMap<Object, GraphicalView>();
 	
 	public static GraphicalView get(double[] input) {

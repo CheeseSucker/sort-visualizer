@@ -1,5 +1,9 @@
 package com.github.cheesesucker.sortvisualizer;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.util.ArrayList;
+
 import com.github.cheesesucker.sortvisualizer.algorithms.HeapSort;
 import com.github.cheesesucker.sortvisualizer.algorithms.ISorter;
 import com.github.cheesesucker.sortvisualizer.algorithms.InsertionSort;
@@ -28,22 +32,37 @@ public class AllSorts {
 	
 	public static void main(String[] args) {
 		double[] input = Helper.generateInput(100);
-		Thread[] sorters = new SorterThread[]{
-			new SorterThread(new InsertionSort(), input),
-			new SorterThread(new SelectionSort(), input),
-			new SorterThread(new ShellSort(), input),
-			new SorterThread(new MergeSort(1), input),
-			new SorterThread(new MergeSort(10), input),
-			new SorterThread(new MergeSortBottomUp(), input),
-			new SorterThread(new QuickSort(), input),
-			new SorterThread(new HeapSort(), input)
+		ISorter[] sorters = new ISorter[]{
+				new InsertionSort(),
+				new SelectionSort(),
+				new ShellSort(),
+				new MergeSort(1),
+				new MergeSort(10),
+				new MergeSortBottomUp(),
+				new QuickSort(),
+				new HeapSort()
 		};
 		
-		for (Thread t : sorters) {
-			t.start();
+		setupWindowLayout(sorters.length);
+		
+		for (ISorter sorter : sorters) {
+			new SorterThread(sorter, input).start();
 		}
-		
-		
 	}
-	
+
+	public static void setupWindowLayout(int numWindows) {
+		final int taskbarHeight = 40; // TODO: Get the real value for this
+		
+		final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		
+		// Prefer vertical over horizontal layout
+		int availableHeight = screen.height - taskbarHeight;
+		int maxWindowsY = availableHeight / GraphicalView.WindowHeight;
+		GraphicalView.WindowsPerRow = (int)Math.ceil((double)numWindows / maxWindowsY);
+		
+		// Center vertically
+		int windowsPerColumn = (int)Math.ceil((double)numWindows / GraphicalView.WindowsPerRow);
+		int totalHeight = windowsPerColumn * GraphicalView.WindowHeight;
+		GraphicalView.WindowOffsetY = (availableHeight - totalHeight) / 2;
+	}
 }
