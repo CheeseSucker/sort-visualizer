@@ -21,6 +21,7 @@ The sorting algorithms are based on the book "Algorithms" by Robert Sedgewick an
 Currently implemented sorting algorithms:
   - Insertion sort
   - Selection sort
+  - Bubble sort
   - Merge sort (top down, with cutoff for insertion sort)
   - Merge sort (bottom up)
   - Shellsort
