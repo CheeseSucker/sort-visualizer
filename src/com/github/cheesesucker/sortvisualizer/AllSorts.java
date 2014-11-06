@@ -1,9 +1,12 @@
 package com.github.cheesesucker.sortvisualizer;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Toolkit;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
+import com.github.cheesesucker.sortvisualizer.algorithms.BubbleSort;
 import com.github.cheesesucker.sortvisualizer.algorithms.HeapSort;
 import com.github.cheesesucker.sortvisualizer.algorithms.ISorter;
 import com.github.cheesesucker.sortvisualizer.algorithms.InsertionSort;
@@ -35,6 +38,7 @@ public class AllSorts {
 		ISorter[] sorters = new ISorter[]{
 				new InsertionSort(),
 				new SelectionSort(),
+				new BubbleSort(),
 				new ShellSort(),
 				new MergeSort(1),
 				new MergeSort(10),
@@ -57,12 +61,49 @@ public class AllSorts {
 		
 		// Prefer vertical over horizontal layout
 		int availableHeight = screen.height - taskbarHeight;
+		int maxWindowsX = screen.width / GraphicalView.WindowWidth;
 		int maxWindowsY = availableHeight / GraphicalView.WindowHeight;
-		GraphicalView.WindowsPerRow = (int)Math.ceil((double)numWindows / maxWindowsY);
+		Point layout = getLayout(numWindows, maxWindowsX, maxWindowsY);
+		GraphicalView.WindowsPerRow = layout.x;
 		
 		// Center vertically
 		int windowsPerColumn = (int)Math.ceil((double)numWindows / GraphicalView.WindowsPerRow);
 		int totalHeight = windowsPerColumn * GraphicalView.WindowHeight;
 		GraphicalView.WindowOffsetY = (availableHeight - totalHeight) / 2;
+	}
+	
+	/**
+	 * Find a somewhat pleasing window layout.
+	 * In this case we prefer rectangular layouts over jagged ones.
+	 */
+	public static Point getLayout(int numWindows, int maxX, int maxY) {
+		// Look for rectangular layout
+		Set<Integer> divisors = findDivisors(numWindows);
+		for (int x : divisors) {
+			int y = numWindows / x;
+			if (x <= maxX && y <= maxY) {
+				return new Point(x, y);
+			}
+		}
+		
+		// No rectangular layout found. Use a jagged one, possibly overflowing the screen.
+		int x = (int)Math.ceil((double)numWindows / maxY);
+		int y = maxY;
+		return new Point(x, y);
+	}
+	
+	/**
+	 * Find the divisors of a number.
+	 * 8 => [1, 2, 4, 8]
+	 */
+	public static Set<Integer> findDivisors(int a) {
+		Set<Integer> factors = new HashSet<Integer>();
+		factors.add(1);
+		for (int x = 2; x < a; x++) {
+			if (a % x == 0) {
+				factors.add(x);
+			}
+		}
+		return factors;
 	}
 }
