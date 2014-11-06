@@ -22,18 +22,6 @@ public class SelectionSort implements ISorter {
 	}
 
 	public static void main(String[] args) {
-		double[] input = Helper.generateInput(100);
-		Helper.printArray(input);
-		
-		SelectionSort sorter = new SelectionSort();
-		sorter.sort(input);
-		
-		Helper.printArray(input);
-		
-		if (!Helper.isSorted(input)) {
-			throw new RuntimeException("Postcondition failed: Array is not sorted!");
-		} else {
-			System.out.println("sorted");
-		}
+		Helper.runExperiment(new SelectionSort(), 100);
 	}
 }

@@ -23,18 +23,6 @@ public class BubbleSort implements ISorter {
 	}
 
 	public static void main(String[] args) {
-		double[] input = Helper.generateInput(100);
-		Helper.printArray(input);
-		
-		BubbleSort sorter = new BubbleSort();
-		sorter.sort(input);
-		
-		Helper.printArray(input);
-		
-		if (!Helper.isSorted(input)) {
-			throw new RuntimeException("Postcondition failed: Array is not sorted!");
-		} else {
-			System.out.println("sorted");
-		}
+		Helper.runExperiment(new BubbleSort(), 100);
 	}
 }

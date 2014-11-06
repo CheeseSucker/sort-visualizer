@@ -1,5 +1,7 @@
 package com.github.cheesesucker.sortvisualizer;
 
+import com.github.cheesesucker.sortvisualizer.algorithms.ISorter;
+
 
 public class Helper {
 	public static void exch(double[] input, int a, int b) {
@@ -52,5 +54,17 @@ public class Helper {
 			input[i] = StdRandom.uniform();
 		}
 		return input;
+	}
+
+	public static void runExperiment(ISorter sorter, int n) {
+		double[] input = generateInput(n);
+		
+		sorter.sort(input);
+		
+		if (!isSorted(input)) {
+			throw new RuntimeException("Postcondition failed: Array is not sorted!");
+		} else {
+			System.out.println("sorted");
+		}
 	}
 }

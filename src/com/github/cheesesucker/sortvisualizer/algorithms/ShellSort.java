@@ -25,18 +25,6 @@ public class ShellSort implements ISorter {
 	}
 
 	public static void main(String[] args) {
-		double[] input = Helper.generateInput(100);
-		Helper.printArray(input);
-		
-		ShellSort sorter = new ShellSort();
-		sorter.sort(input);
-		
-		Helper.printArray(input);
-		
-		if (!Helper.isSorted(input)) {
-			throw new RuntimeException("Postcondition failed: Array is not sorted!");
-		} else {
-			System.out.println("sorted");
-		}
+		Helper.runExperiment(new ShellSort(), 100);
 	}
 }
