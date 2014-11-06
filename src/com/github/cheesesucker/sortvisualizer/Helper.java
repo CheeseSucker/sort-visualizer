@@ -59,6 +59,7 @@ public class Helper {
 	public static void runExperiment(ISorter sorter, int n) {
 		double[] input = generateInput(n);
 		
+		GraphicalView.get(input, sorter.getName());
 		sorter.sort(input);
 		
 		if (!isSorted(input)) {
