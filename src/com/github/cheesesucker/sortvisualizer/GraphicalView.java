@@ -43,8 +43,7 @@ public class GraphicalView {
 	
 	public GraphicalView(String name) {
 		this.name = name;
-		draw = new Drawer(name);
-		draw.setCanvasSize(WindowWidth, WindowHeight);
+		draw = new Drawer(name, WindowWidth, WindowHeight);
 	}
 	
 	public void draw(double[] input) {

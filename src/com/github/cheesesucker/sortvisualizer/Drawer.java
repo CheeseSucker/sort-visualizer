@@ -120,8 +120,8 @@ public final class Drawer {
     private Color penColor;
 
     // canvas size
-    private int width  = DEFAULT_SIZE;
-    private int height = DEFAULT_SIZE;
+    private final int width;
+    private final int height;
 
     // current pen radius
     private double penRadius;
@@ -149,20 +149,15 @@ public final class Drawer {
      *
      * @param name the title of the drawing window.
      */
-    public Drawer(String name) {
+    public Drawer(String name, int w, int h) {
+        if (w < 1 || h < 1) throw new RuntimeException("width and height must be positive");
+        this.width = w;
+        this.height = h;
         this.name = name;
         init();
     }
 
-    /**
-     * Create an empty drawing object.
-     */
-    public Drawer() {
-        init();
-    }
-
     private void init() {
-        if (frame != null) frame.setVisible(false);
         frame = new JFrame();
         offscreenImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         onscreenImage  = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -211,21 +206,6 @@ public final class Drawer {
         frame.setLocation(x, y);
     }
 
-
-
-    /**
-     * Set the window size to w-by-h pixels.
-     *
-     * @param w the width as a number of pixels
-     * @param h the height as a number of pixels
-     * @throws a RunTimeException if the width or height is 0 or negative
-     */
-    public void setCanvasSize(int w, int h) {
-        if (w < 1 || h < 1) throw new RuntimeException("width and height must be positive");
-        width = w;
-        height = h;
-        init();
-    }
 
    /*************************************************************************
     *  User and screen coordinate systems
@@ -895,7 +875,7 @@ public final class Drawer {
     public static void main(String[] args) {
 
         // create one drawing window
-        Drawer draw1 = new Drawer("Test client 1");
+        Drawer draw1 = new Drawer("Test client 1", DEFAULT_SIZE, DEFAULT_SIZE);
         draw1.square(.2, .8, .1);
         draw1.filledSquare(.8, .8, .2);
         draw1.circle(.8, .2, .2);
@@ -905,8 +885,7 @@ public final class Drawer {
 
 
         // create another one
-        Drawer draw2 = new Drawer("Test client 2");
-        draw2.setCanvasSize(900, 200);
+        Drawer draw2 = new Drawer("Test client 2", 900, 200);
         // draw a blue diamond
         draw2.setPenRadius();
         draw2.setPenColor(Drawer.BLUE);
